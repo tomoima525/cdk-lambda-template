@@ -61,3 +61,25 @@ export class DevelopmentTemplateStack extends Stack {
 ```
 yarn cdk:deploy
 ```
+
+# Tips
+
+### Accessing lambda layer
+
+You can use submodules to access the lambda layer
+
+```
+git submodule add git@github.com:yourproject/main-cdk.git main-cdk
+```
+
+Then add the path in `tsconfig.json`
+
+```
+{
+  ...
+      "paths": {
+      "/opt/nodejs/s3": ["main-cdk/functions/layers/awsservice/nodejs/s3"]
+    }
+}
+
+```
