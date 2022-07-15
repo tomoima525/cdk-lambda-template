@@ -5,6 +5,9 @@ This is a CDK template to develop lambda functions in your isolated environment
 # Why we need this?
 
 When you are building a lambda function using CDK in a team, your functions get overriden by other developers functions when they deploy. By having isolated CDK environment which imports external resources (e.g. DynamoDB, S3), we can safely develop our lambda functions. Once you confirmed that your function is working properly in your environment, you can copy your code to your base CDK project.
+<p align="center">
+<img src="https://user-images.githubusercontent.com/6277118/179318780-e5110421-f945-40fa-acdc-514b3945d32c.png" width=800px />
+</p>
 
 # How to use
 
@@ -16,7 +19,7 @@ When you are building a lambda function using CDK in a team, your functions get 
 YOUR_NAME=tomo
 ```
 
-When you deploy your CDK, it will be named as `DevStack${yourname}`
+- When you deploy your CDK, it will be named as `DevStack${yourname}`
 
 2. Add your external resources & lambda function
 
@@ -43,4 +46,10 @@ export class DevelopmentTemplateStack extends Stack {
 
   }
 }
+```
+
+3. Deploy
+
+```
+yarn cdk:deploy
 ```
