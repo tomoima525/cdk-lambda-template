@@ -1,14 +1,46 @@
-# Welcome to your CDK TypeScript project
+# CDK lambda development template
 
-This is a blank project for CDK development with TypeScript.
+This is a CDK template to develop lambda functions in your isolated environment
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+# Why we need this?
 
-## Useful commands
+When you are building a lambda function using CDK in a team, your functions get overriden by other developers functions when they deploy. By having isolated CDK environment which imports external resources (e.g. DynamoDB, S3), we can safely develop our lambda functions. Once you confirmed that your function is working properly in your environment, you can copy your code to your base CDK project.
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+# How to use
+
+1. Set your development Stack name
+
+- create .env file and add your setup
+
+```
+YOUR_NAME=tomo
+```
+
+When you deploy your CDK, it will be named as `DevStack${yourname}`
+
+2. Add your external resources & lambda function
+
+```
+export class DevelopmentTemplateStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+    // Reference your resouces
+    // See how to reference external resources https://docs.aws.amazon.com/cdk/v2/guide/resources.html
+
+    const s3Bucket = s3.Bucket.fromBucketArn(this, 'MyBucket', 'arn:aws:s3:::my-bucket-name');
+
+    // Set your lambda
+    cont yourLambda = new lambda_nodejs.NodejsFunction(this, "yourlambda", {
+      runtime: lambda.Runtime.NODEJS_16_X,
+      handler: "handler",
+      entry: path.join(`${__dirname}/../`, "functions", "yourlambda/index.ts"),
+      environment: {
+        BUCKET: props.s3Bucket.bucketName,
+      },
+    });
+
+    props.s3Bucket.grantReadWrite(yourLambda);
+
+  }
+}
+```
