@@ -82,4 +82,10 @@ Then add the path in `tsconfig.json`
     }
 }
 
+and when you update submodule
+
+```
+git submodule update --recursive --remote --merge
+```
+
 ```
