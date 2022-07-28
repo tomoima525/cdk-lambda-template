@@ -81,6 +81,7 @@ Then add the path in `tsconfig.json`
       "/opt/nodejs/s3": ["main-cdk/functions/layers/awsservice/nodejs/s3"]
     }
 }
+```
 
 and when you update submodule
 
@@ -88,4 +89,3 @@ and when you update submodule
 git submodule update --recursive --remote --merge
 ```
 
-```
