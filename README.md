@@ -35,7 +35,7 @@ export class DevelopmentTemplateStack extends Stack {
 
     // Set your lambda
     cont yourLambda = new lambda_nodejs.NodejsFunction(this, "yourlambda", {
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       handler: "handler",
       entry: path.join(`${__dirname}/../`, "functions", "yourlambda/index.ts"),
       environment: {
@@ -59,7 +59,7 @@ export class DevelopmentTemplateStack extends Stack {
 4. Deploy
 
 ```
-yarn cdk:deploy
+pnpm cdk:deploy
 ```
 
 # Tips
@@ -88,4 +88,3 @@ and when you update submodule
 ```
 git submodule update --recursive --remote --merge
 ```
-

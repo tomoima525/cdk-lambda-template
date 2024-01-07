@@ -7,8 +7,6 @@ jest.config.js
 build
 coverage
 
-# yarn
-.yarn/**/*
 # web
 packages/**/.next
 
