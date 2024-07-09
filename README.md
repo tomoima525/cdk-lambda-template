@@ -12,15 +12,19 @@ When you are building a lambda function using CDK in a team, your functions get 
 
 # How to use
 
-1. Set your development Stack name
-
-- create .env file and add your setup
+1. Set your development Stack info
 
 ```
-YOUR_NAME=tomo
+new DevelopmentTemplateStack(app, `AppStack`, {
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
+  },
+  tags: {
+    app: "tag",
+  },
+});
 ```
-
-- When you deploy your CDK, it will be named as `DevStack${yourname}`
 
 2. Add your external resources & lambda function
 
@@ -51,10 +55,10 @@ export class DevelopmentTemplateStack extends Stack {
 
 3. Your lambda
 
-- This project uses yarn 2+ workspace.
+- This project uses pnpm workspace.
 - Add your function under `functions` (e.g. `functions/yourlambda/index.ts`)
-- you need to run `yarn install` at the root of the project so that yarn can recognize your function.
-- If you want add other dependencies, call `yarn init` under `functions/yourlambda` then `yarn add {dependecies you want to add}`
+- you need to run `pnpm i` at the root of the project so that pnpm can recognize your function.
+- If you want add other dependencies, call `pnpm init` under `functions/yourlambda` then `pnpm add {dependecies you want to add}`
 
 4. Deploy
 
