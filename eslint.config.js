@@ -1,25 +1,80 @@
-module.exorts = {
-  root: true,
-  env: {
-    node: true,
-    jest: true,
-    browser: true,
-  },
-  extends: ["plugin:@typescript-eslint/recommended", "prettier"],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: "./tsconfig.json",
-    sourceType: "module",
-  },
-  plugins: ["@typescript-eslint/eslint-plugin", "import"],
-  rules: {
-    "no-console": 0,
-    semi: 0,
-    "@typescript-eslint/no-explicit-any": 0,
-  },
-  settings: {
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"],
+// @ts-check
+const eslint = require("@eslint/js");
+const tseslint = require("typescript-eslint");
+const prettierConfig = require("eslint-config-prettier");
+
+module.exports = tseslint.config(
+  // Base recommended configs
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+
+  // Prettier config to disable conflicting rules
+  prettierConfig,
+
+  // TypeScript-specific configuration
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: "./tsconfig.json",
+        sourceType: "module",
+      },
+      globals: {
+        // Node.js globals
+        process: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        module: "readonly",
+        require: "readonly",
+        console: "readonly",
+        Buffer: "readonly",
+        // Jest globals
+        describe: "readonly",
+        test: "readonly",
+        it: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        jest: "readonly",
+      },
+    },
+    rules: {
+      "no-console": 0,
+      semi: 0,
+      "@typescript-eslint/no-explicit-any": 0,
     },
   },
-};
+
+  // JavaScript files configuration (including config files)
+  {
+    files: ["**/*.js", "**/*.mjs", "**/*.cjs"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        process: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        module: "readonly",
+        require: "readonly",
+        console: "readonly",
+      },
+    },
+    rules: {
+      "no-console": 0,
+      semi: 0,
+      "@typescript-eslint/no-require-imports": 0,
+    },
+  },
+
+  // Ignore patterns (replaces .eslintignore)
+  {
+    ignores: [
+      "node_modules/**",
+      "cdk.out/**",
+      "*.d.ts",
+    ],
+  }
+);
